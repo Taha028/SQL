@@ -1,0 +1,7 @@
+Which month did Parch & Posey have the greatest sales in terms of total number of orders?
+
+
+SELECT DATE_PART('month', occurred_at) ord_year,  COUNT(id) total_spent
+FROM orders
+GROUP BY 1
+ORDER BY 2 DESC;
