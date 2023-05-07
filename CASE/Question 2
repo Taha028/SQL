@@ -1,0 +1,7 @@
+SELECT CASE WHEN total >= 2000 THEN 'GOOD'
+	   WHEN total > 1000 AND total <2000 THEN 'AVG'
+        WHEN total < 1000 THEN 'Cheap'
+       END AS total_count,
+COUNT(total)
+FROM orders
+GROUP BY 1
