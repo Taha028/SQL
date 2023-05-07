@@ -1,0 +1,19 @@
+We would now like to perform a similar calculation to the first, but we want to obtain the total amount spent by customers only in 2016 and 2017. Keep the same levels as in the previous question. Order with the top spending customers listed first.
+
+
+
+
+
+
+SELECT a.name, o.account_id,
+       CASE WHEN SUM(o.total_amt_usd) > 200000 THEN 'TOP LEVEL'
+            WHEN SUM(o.total_amt_usd) > 100000 AND SUM(o.total_amt_usd) < 200000 THEN 'SECOND LEVEL'
+            ELSE 'THIRD LEVEL'
+       END AS total_spend,
+       SUM(o.total_amt_usd) AS total
+FROM accounts a
+JOIN orders o ON a.id = o.account_id
+WHERE DATE_PART('year',o.occurred_at) BETWEEN 2016 AND 2017
+GROUP BY 1, 2
+ORDER BY total DESC;
+
