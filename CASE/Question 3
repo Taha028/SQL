@@ -1,0 +1,15 @@
+We would like to understand 3 different levels of customers based on the amount associated with their purchases. The top level includes anyone with a Lifetime Value (total sales of all orders) greater than 200,000 usd. The second level is between 200,000 and 100,000 usd. The lowest level is anyone under 100,000 usd. Provide a table that includes the level associated with each account. You should provide the account name, the total sales of all orders for the customer, and the level. Order with the top spending customers listed first.
+
+
+
+SELECT a.name, o.account_id,
+       CASE WHEN SUM(o.total_amt_usd) > 200000 THEN 'TOP LEVEL'
+            WHEN SUM(o.total_amt_usd) > 100000 AND SUM(o.total_amt_usd) < 200000 THEN 'SECOND LEVEL'
+            ELSE 'THIRD LEVEL'
+       END AS total_spend,
+       SUM(o.total_amt_usd) AS total
+FROM accounts a
+JOIN orders o ON a.id = o.account_id
+GROUP BY 1, 2
+ORDER BY total DESC;
+
