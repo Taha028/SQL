@@ -1,3 +1,45 @@
+// Alternative Approach
+
+
+SELECT r.name,sr.name AS sales_rep, SUM(o.total_amt_usd) 
+    FROM accounts a
+    JOIN orders o ON a.id = o.account_id
+    JOIN sales_reps sr ON a.sales_rep_id = sr.id
+    JOIN region r ON sr.region_id = r.id
+    GROUP BY 1,2
+HAVING SUM(o.total_amt_usd) IN (
+SELECT Max_sales
+FROM(
+  SELECT t1.region_name,MAX(t1.sales) as Max_sales
+  FROM (
+    SELECT r.name AS region_name, sr.name AS sales_rep, SUM(o.total_amt_usd) AS sales
+    FROM accounts a
+    JOIN orders o ON a.id = o.account_id
+    JOIN sales_reps sr ON a.sales_rep_id = sr.id
+    JOIN region r ON sr.region_id = r.id
+    GROUP BY 1, 2
+    ORDER BY 3 DESC
+  ) t1
+  GROUP BY 1) t2)
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 SELECT sr.name Sale_rep, r.name, SUM(o.total_amt_usd) AS sum_of_sales
 FROM accounts a
 JOIN orders o ON a.id = o.account_id
