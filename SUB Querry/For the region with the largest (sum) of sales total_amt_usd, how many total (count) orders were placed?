@@ -1,0 +1,18 @@
+SELECT COUNT(o.id), SUM(o.total_amt_usd), r.name
+FROM accounts a
+JOIN orders o ON a.id = o.account_id
+JOIN sales_reps sr ON a.sales_rep_id = sr.id
+JOIN region r ON sr.region_id = r.id
+GROUP BY r.name
+HAVING SUM(o.total_amt_usd) IN (
+    SELECT SUM(t1.sum_of_total)
+    FROM (
+        SELECT sr.name AS sales_rep, r.name AS region_name, SUM(o.total_amt_usd) AS sum_of_total
+        FROM accounts a
+        JOIN orders o ON a.id = o.account_id
+        JOIN sales_reps sr ON a.sales_rep_id = sr.id
+        JOIN region r ON sr.region_id = r.id
+        GROUP BY sr.name, r.name
+    ) t1
+    GROUP BY t1.region_name
+);
