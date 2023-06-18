@@ -1,0 +1,6 @@
+SELECT ed.DPT_NAME,ee.EMP_DEPT
+FROM emp_department ed
+INNER JOIN emp_details ee
+ON ed.DPT_CODE =  ee.EMP_DEPT
+GROUP BY 1,2
+HAVING COUNT(ee.EMP_DEPT)>2
