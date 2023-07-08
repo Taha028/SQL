@@ -1,1 +1,25 @@
+Consider vowels as a, e, i, o, and u. What proportion of company names start with a vowel, and what percent start with anything else?
 
+
+
+WITH counts AS (
+    SELECT 
+        CASE 
+            WHEN LEFT(name, 1) LIKE 'A%' THEN 'StartsWithA'
+            ELSE 'Others'
+        END AS difference,
+        COUNT(*) AS Countss
+    FROM accounts
+    GROUP BY difference
+),
+TotalCountsA AS (SELECT SUM(Countss) AS sumofA
+               FROM counts
+               WHERE difference = 'StartsWithA'),
+TotalCountsOther AS (SELECT SUM(Countss) AS sumofOthers
+                    FROM counts
+                    WHERE difference = 'Others'),
+TotalCount AS (SELECT SUM(Countss) AS totalCount
+              FROM counts)
+
+SELECT ((sumofOthers)*1.0)/totalCount AS others,((sumofA)*1.0)/totalCount AS A
+FROM TotalCountsOther,TotalCount,TotalCountsA
