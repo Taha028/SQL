@@ -5,7 +5,7 @@ Consider vowels as a, e, i, o, and u. What proportion of company names start wit
 WITH counts AS (
     SELECT 
         CASE 
-            WHEN LEFT(name, 1) LIKE 'A%' THEN 'StartsWithA'
+            WHEN LEFT(name, 1) IN ('A','E','I','O','U') THEN 'StartsWithVowels'
             ELSE 'Others'
         END AS difference,
         COUNT(*) AS Countss
@@ -14,7 +14,7 @@ WITH counts AS (
 ),
 TotalCountsA AS (SELECT SUM(Countss) AS sumofA
                FROM counts
-               WHERE difference = 'StartsWithA'),
+               WHERE difference = 'StartsWithVowels'),
 TotalCountsOther AS (SELECT SUM(Countss) AS sumofOthers
                     FROM counts
                     WHERE difference = 'Others'),
