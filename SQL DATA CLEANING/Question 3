@@ -1,1 +1,19 @@
+Use the accounts table and a CASE statement to create two groups: one group of company names that start with a number and a second group of those company names that start with a letter. What proportion of company names start with a letter?
 
+
+
+
+WITH counts AS (SELECT 
+    CASE 
+        WHEN LEFT(name, 1) BETWEEN 'A' AND 'Z' THEN 'Letter'
+        WHEN LEFT(name, 1) BETWEEN '0' AND '9' THEN 'DIGIT'
+    END AS difference,
+    COUNT(*) AS Countss
+FROM accounts
+GROUP BY difference)
+
+SELECT SUM(Countss)*1.0/
+(SELECT SUM(Countss)
+ FROM counts) AS all_sum
+FROM counts
+WHERE difference = 'Letter'
