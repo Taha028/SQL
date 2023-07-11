@@ -1,3 +1,5 @@
 Now see if you can do the same thing for every rep name in the sales_reps table. Again provide first and last name columns.
 
 
+select LEFT(name,strpos(name,' ')) AS first_name,RIGHT(name,LENGTH(name)-strpos(name,' ')) AS last_name,name
+from sales_reps
